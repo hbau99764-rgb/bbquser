@@ -1,0 +1,2 @@
+# bbquser
+apk butuh bantuanku
