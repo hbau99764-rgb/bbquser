@@ -1,0 +1,1689 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>BBQ - Butuh Bantuan Ku</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #FF6B35;
+  --primary-dark: #E55A25;
+  --primary-light: #FF8C5A;
+  --secondary: #1A1A2E;
+  --accent: #FFD700;
+  --bg: #F5F5F5;
+  --card: #FFFFFF;
+  --text: #1A1A2E;
+  --text-muted: #8B8FA8;
+  --border: #EBEBF0;
+  --success: #22C55E;
+  --danger: #EF4444;
+  --warning: #F59E0B;
+  --shadow: 0 4px 20px rgba(255,107,53,0.12);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --nav-h: 70px;
+}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html,body { height:100%; overflow:hidden; font-family:'Plus Jakarta Sans',sans-serif; background:var(--bg); color:var(--text); }
+body { position:relative; }
+.screen { position:fixed; inset:0; background:var(--bg); overflow-y:auto; overflow-x:hidden; transition:transform .35s cubic-bezier(.4,0,.2,1), opacity .35s; }
+.screen.hidden { transform:translateX(100%); opacity:0; pointer-events:none; }
+.screen.slide-left.hidden { transform:translateX(-100%); }
+::-webkit-scrollbar { display:none; }
+
+/* ========== SPLASH ========== */
+#splash { background:linear-gradient(145deg,#1A1A2E 0%,#16213E 50%,#0F3460 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:999; }
+.splash-logo { width:90px; height:90px; background:linear-gradient(135deg,var(--primary),var(--primary-light)); border-radius:24px; display:flex; align-items:center; justify-content:center; font-size:42px; margin-bottom:20px; box-shadow:0 20px 60px rgba(255,107,53,.4); animation:popIn .6s cubic-bezier(.34,1.56,.64,1) .3s both; }
+.splash-title { font-size:28px; font-weight:800; color:#fff; letter-spacing:-.5px; animation:fadeUp .5s ease .7s both; }
+.splash-sub { font-size:14px; color:rgba(255,255,255,.5); margin-top:6px; animation:fadeUp .5s ease .9s both; }
+.splash-loader { margin-top:50px; width:50px; height:4px; background:rgba(255,255,255,.1); border-radius:4px; overflow:hidden; animation:fadeUp .5s ease 1.1s both; }
+.splash-loader-bar { height:100%; width:0; background:var(--primary); border-radius:4px; animation:load 1.8s ease 1.2s forwards; }
+@keyframes load { to { width:100%; } }
+@keyframes popIn { from { transform:scale(.5); opacity:0; } to { transform:scale(1); opacity:1; } }
+@keyframes fadeUp { from { transform:translateY(20px); opacity:0; } to { transform:translateY(0); opacity:1; } }
+
+/* ========== LOGIN ========== */
+#login { background:linear-gradient(160deg,#1A1A2E 0%,#16213E 40%,#0F3460 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:30px 24px; }
+.login-hero { text-align:center; margin-bottom:40px; }
+.login-logo { width:80px; height:80px; background:linear-gradient(135deg,var(--primary),#FF8C5A); border-radius:22px; display:flex; align-items:center; justify-content:center; font-size:38px; margin:0 auto 20px; box-shadow:0 20px 50px rgba(255,107,53,.35); }
+.login-title { font-size:30px; font-weight:800; color:#fff; letter-spacing:-.5px; }
+.login-sub { font-size:15px; color:rgba(255,255,255,.55); margin-top:8px; line-height:1.5; }
+.login-tagline { display:flex; align-items:center; gap:8px; justify-content:center; margin-top:16px; }
+.tag-badge { background:rgba(255,107,53,.2); border:1px solid rgba(255,107,53,.4); color:var(--primary-light); font-size:11px; font-weight:600; padding:4px 10px; border-radius:20px; }
+.login-card { width:100%; max-width:400px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); border-radius:24px; padding:32px 28px; backdrop-filter:blur(20px); }
+.login-card h3 { color:#fff; font-size:18px; font-weight:700; margin-bottom:8px; }
+.login-card p { color:rgba(255,255,255,.5); font-size:13px; margin-bottom:24px; line-height:1.5; }
+.btn-google { width:100%; display:flex; align-items:center; justify-content:center; gap:12px; background:#fff; color:#333; font-size:15px; font-weight:600; padding:16px; border-radius:14px; border:none; cursor:pointer; transition:all .2s; box-shadow:0 4px 20px rgba(0,0,0,.2); font-family:inherit; }
+.btn-google:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(0,0,0,.3); }
+.btn-google:active { transform:scale(.98); }
+.google-icon { width:22px; height:22px; }
+.login-note { text-align:center; color:rgba(255,255,255,.3); font-size:11px; margin-top:20px; line-height:1.6; }
+.features { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:24px; }
+.feat-item { background:rgba(255,255,255,.05); border-radius:12px; padding:14px; text-align:center; }
+.feat-icon { font-size:22px; margin-bottom:6px; }
+.feat-text { color:rgba(255,255,255,.6); font-size:11px; line-height:1.4; }
+
+/* ========== FORM ========== */
+#form-page { background:var(--bg); }
+.form-header { background:linear-gradient(135deg,var(--primary),var(--primary-dark)); padding:50px 24px 30px; position:relative; overflow:hidden; }
+.form-header::before { content:''; position:absolute; right:-40px; top:-40px; width:180px; height:180px; background:rgba(255,255,255,.08); border-radius:50%; }
+.form-header h2 { color:#fff; font-size:22px; font-weight:800; position:relative; }
+.form-header p { color:rgba(255,255,255,.75); font-size:13px; margin-top:4px; position:relative; }
+.form-body { padding:24px; }
+.form-section { background:var(--card); border-radius:var(--radius); padding:20px; margin-bottom:16px; box-shadow:0 2px 12px rgba(0,0,0,.06); }
+.form-section h3 { font-size:14px; font-weight:700; color:var(--text); margin-bottom:16px; display:flex; align-items:center; gap:8px; }
+.form-section h3 span { font-size:18px; }
+.field { margin-bottom:14px; }
+.field label { display:block; font-size:12px; font-weight:600; color:var(--text-muted); margin-bottom:6px; text-transform:uppercase; letter-spacing:.5px; }
+.field input, .field select, .field textarea { width:100%; background:#F8F8FC; border:1.5px solid var(--border); border-radius:10px; padding:12px 14px; font-size:14px; color:var(--text); font-family:inherit; transition:border-color .2s; outline:none; appearance:none; }
+.field input:focus, .field select:focus { border-color:var(--primary); background:#fff; }
+.field textarea { resize:none; height:80px; }
+.ktp-upload { border:2px dashed var(--border); border-radius:14px; padding:30px 20px; text-align:center; cursor:pointer; transition:all .2s; background:#FAFAFA; }
+.ktp-upload:hover { border-color:var(--primary); background:#FFF5F2; }
+.ktp-upload input { display:none; }
+.ktp-icon { font-size:36px; margin-bottom:8px; }
+.ktp-text { font-size:13px; font-weight:600; color:var(--text); }
+.ktp-sub { font-size:11px; color:var(--text-muted); margin-top:4px; }
+.ktp-preview { width:100%; max-height:200px; object-fit:cover; border-radius:10px; margin-top:12px; display:none; }
+.gender-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.gender-btn { padding:12px; border:1.5px solid var(--border); border-radius:10px; background:#F8F8FC; text-align:center; cursor:pointer; font-size:13px; font-weight:600; color:var(--text-muted); transition:all .2s; }
+.gender-btn.active { border-color:var(--primary); background:#FFF0EB; color:var(--primary); }
+.btn-submit { width:100%; background:linear-gradient(135deg,var(--primary),var(--primary-dark)); color:#fff; font-size:16px; font-weight:700; padding:17px; border-radius:14px; border:none; cursor:pointer; font-family:inherit; box-shadow:0 8px 24px rgba(255,107,53,.35); transition:all .2s; }
+.btn-submit:hover { transform:translateY(-2px); box-shadow:0 12px 30px rgba(255,107,53,.4); }
+.btn-submit:active { transform:scale(.98); }
+.progress-bar { height:4px; background:rgba(255,255,255,.3); border-radius:4px; margin-top:16px; position:relative; }
+.progress-fill { height:100%; background:#fff; border-radius:4px; width:50%; transition:width .3s; }
+
+/* ========== MAIN APP ========== */
+#app { padding-bottom:var(--nav-h); background:var(--bg); }
+.bottom-nav { position:fixed; bottom:0; left:0; right:0; height:var(--nav-h); background:#fff; border-top:1px solid var(--border); display:flex; z-index:100; box-shadow:0 -4px 20px rgba(0,0,0,.06); }
+.nav-item { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; cursor:pointer; transition:all .2s; position:relative; }
+.nav-icon { width:26px; height:26px; display:flex; align-items:center; justify-content:center; border-radius:10px; transition:all .2s; }
+.nav-label { font-size:10px; font-weight:600; color:var(--text-muted); transition:color .2s; }
+.nav-item.active .nav-icon { background:rgba(255,107,53,.12); }
+.nav-item.active .nav-label { color:var(--primary); }
+.nav-item.active svg { stroke:var(--primary); }
+.nav-badge { position:absolute; top:8px; right:calc(50% - 20px); background:var(--danger); color:#fff; font-size:10px; font-weight:700; min-width:16px; height:16px; border-radius:8px; display:flex; align-items:center; justify-content:center; padding:0 3px; }
+
+/* ========== TAB PANELS ========== */
+.tab-panel { display:none; }
+.tab-panel.active { display:block; }
+
+/* ========== HOME ========== */
+.home-header { background:linear-gradient(135deg,var(--primary) 0%,#E55A25 60%,#CC4A15 100%); padding:50px 20px 80px; position:relative; overflow:hidden; }
+.home-header::before { content:''; position:absolute; right:-60px; top:-60px; width:220px; height:220px; background:rgba(255,255,255,.07); border-radius:50%; }
+.home-header::after { content:''; position:absolute; left:-30px; bottom:-30px; width:130px; height:130px; background:rgba(0,0,0,.06); border-radius:50%; }
+.header-top { display:flex; align-items:center; justify-content:space-between; position:relative; }
+.header-greeting { color:rgba(255,255,255,.8); font-size:13px; font-weight:500; }
+.header-name { color:#fff; font-size:20px; font-weight:800; margin-top:2px; }
+.header-avatar { width:44px; height:44px; border-radius:50%; border:2.5px solid rgba(255,255,255,.4); object-fit:cover; cursor:pointer; }
+.header-datetime { margin-top:20px; position:relative; }
+.datetime-day { color:rgba(255,255,255,.7); font-size:12px; font-weight:500; }
+.datetime-clock { color:#fff; font-size:32px; font-weight:800; letter-spacing:-1px; line-height:1; }
+.datetime-date { color:rgba(255,255,255,.8); font-size:13px; margin-top:4px; }
+.weather-badge { display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,.15); border-radius:20px; padding:6px 12px; margin-top:12px; }
+.weather-badge span { color:#fff; font-size:12px; font-weight:600; }
+.home-card { margin:0 16px; margin-top:-44px; background:#fff; border-radius:20px; padding:20px; box-shadow:0 8px 32px rgba(0,0,0,.10); position:relative; z-index:2; }
+.home-card-title { font-size:13px; font-weight:700; color:var(--text); margin-bottom:4px; }
+.home-card-sub { font-size:12px; color:var(--text-muted); margin-bottom:16px; }
+.categories { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+.cat-item { display:flex; flex-direction:column; align-items:center; gap:6px; cursor:pointer; }
+.cat-icon { width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:22px; transition:all .2s; }
+.cat-item:active .cat-icon { transform:scale(.9); }
+.cat-label { font-size:10px; font-weight:600; color:var(--text); text-align:center; line-height:1.3; }
+.cat-c1 { background:#FFF0EB; } .cat-c2 { background:#FFF3E0; } .cat-c3 { background:#F0FFF4; } .cat-c4 { background:#E8F4FD; }
+.cat-c5 { background:#F5F0FF; } .cat-c6 { background:#FFF9E6; } .cat-c7 { background:#FFE8E8; } .cat-c8 { background:#E8FFE8; }
+.section-title { font-size:16px; font-weight:800; color:var(--text); padding:20px 20px 12px; }
+.find-btn { margin:16px; background:linear-gradient(135deg,var(--primary),var(--primary-dark)); color:#fff; padding:16px 20px; border-radius:16px; display:flex; align-items:center; justify-content:space-between; cursor:pointer; box-shadow:var(--shadow); transition:all .2s; }
+.find-btn:active { transform:scale(.98); }
+.find-btn-left h3 { font-size:15px; font-weight:700; }
+.find-btn-left p { font-size:12px; opacity:.8; margin-top:3px; }
+.find-btn-icon { width:44px; height:44px; background:rgba(255,255,255,.2); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:22px; }
+.active-strip { padding:0 16px 8px; display:flex; gap:10px; overflow-x:auto; }
+.active-chip { flex-shrink:0; display:flex; align-items:center; gap:8px; background:#fff; border:1.5px solid var(--border); border-radius:30px; padding:8px 14px; cursor:pointer; transition:all .2s; }
+.active-chip.selected { border-color:var(--primary); background:#FFF0EB; }
+.chip-dot { width:7px; height:7px; background:var(--success); border-radius:50%; }
+.chip-label { font-size:12px; font-weight:600; color:var(--text); }
+
+/* ========== HELPER LIST ========== */
+.helper-list { padding:0 16px 16px; }
+.helper-card { background:#fff; border-radius:18px; padding:16px; display:flex; gap:14px; margin-bottom:12px; box-shadow:0 2px 12px rgba(0,0,0,.06); cursor:pointer; transition:all .2s; border:1.5px solid transparent; }
+.helper-card:hover { border-color:var(--primary); box-shadow:0 4px 20px rgba(255,107,53,.1); }
+.helper-avatar { width:58px; height:58px; border-radius:50%; object-fit:cover; flex-shrink:0; border:2.5px solid var(--border); }
+.helper-info { flex:1; min-width:0; }
+.helper-name-row { display:flex; align-items:center; gap:8px; }
+.helper-name { font-size:15px; font-weight:700; color:var(--text); }
+.online-badge { width:8px; height:8px; background:var(--success); border-radius:50%; flex-shrink:0; }
+.helper-meta { display:flex; gap:12px; margin-top:5px; }
+.meta-item { display:flex; align-items:center; gap:4px; font-size:11px; color:var(--text-muted); font-weight:500; }
+.star-icon { color:var(--accent); font-size:12px; }
+.helper-bio { font-size:12px; color:var(--text-muted); margin-top:6px; line-height:1.4; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.helper-tags { display:flex; gap:6px; margin-top:8px; flex-wrap:wrap; }
+.htag { background:#F0F0F8; color:var(--text-muted); font-size:10px; font-weight:600; padding:3px 8px; border-radius:6px; }
+
+/* ========== ORDER MODAL ========== */
+.modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:500; display:flex; align-items:flex-end; opacity:0; pointer-events:none; transition:opacity .25s; }
+.modal-overlay.show { opacity:1; pointer-events:all; }
+.modal-sheet { background:#fff; border-radius:24px 24px 0 0; width:100%; padding:24px; transform:translateY(100%); transition:transform .35s cubic-bezier(.4,0,.2,1); max-height:90vh; overflow-y:auto; }
+.modal-overlay.show .modal-sheet { transform:translateY(0); }
+.modal-handle { width:40px; height:4px; background:var(--border); border-radius:4px; margin:0 auto 20px; }
+.modal-avatar-row { display:flex; align-items:center; gap:14px; margin-bottom:20px; padding-bottom:20px; border-bottom:1px solid var(--border); }
+.modal-avatar { width:54px; height:54px; border-radius:50%; object-fit:cover; border:2px solid var(--border); }
+.modal-helper-name { font-size:16px; font-weight:700; }
+.modal-helper-sub { font-size:12px; color:var(--text-muted); }
+.modal-field { margin-bottom:14px; }
+.modal-field label { display:block; font-size:12px; font-weight:600; color:var(--text-muted); margin-bottom:6px; text-transform:uppercase; letter-spacing:.4px; }
+.modal-field select, .modal-field input, .modal-field textarea { width:100%; background:#F8F8FC; border:1.5px solid var(--border); border-radius:10px; padding:12px 14px; font-size:14px; color:var(--text); font-family:inherit; outline:none; }
+.modal-field textarea { height:80px; resize:none; }
+.modal-price-row { display:flex; align-items:center; gap:10px; }
+.price-prefix { font-size:15px; font-weight:700; color:var(--text); padding:12px 14px; background:#F8F8FC; border:1.5px solid var(--border); border-radius:10px; white-space:nowrap; }
+.btn-order { width:100%; background:linear-gradient(135deg,var(--primary),var(--primary-dark)); color:#fff; padding:16px; border-radius:14px; border:none; font-size:15px; font-weight:700; font-family:inherit; cursor:pointer; margin-top:8px; box-shadow:var(--shadow); }
+
+/* ========== CHAT ========== */
+.chat-list { padding:12px 16px; }
+.chat-item { display:flex; align-items:center; gap:14px; padding:14px; background:#fff; border-radius:16px; margin-bottom:10px; cursor:pointer; transition:all .2s; box-shadow:0 2px 8px rgba(0,0,0,.04); }
+.chat-item:hover { box-shadow:0 4px 16px rgba(0,0,0,.08); }
+.chat-av { width:52px; height:52px; border-radius:50%; object-fit:cover; flex-shrink:0; position:relative; border:2px solid var(--border); }
+.chat-av-online { position:absolute; bottom:1px; right:1px; width:12px; height:12px; background:var(--success); border-radius:50%; border:2px solid #fff; }
+.chat-info { flex:1; min-width:0; }
+.chat-name { font-size:14px; font-weight:700; color:var(--text); }
+.chat-msg { font-size:12px; color:var(--text-muted); margin-top:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.chat-meta { display:flex; flex-direction:column; align-items:flex-end; gap:5px; flex-shrink:0; }
+.chat-time { font-size:11px; color:var(--text-muted); }
+.chat-unread { background:var(--primary); color:#fff; font-size:10px; font-weight:700; min-width:18px; height:18px; border-radius:9px; display:flex; align-items:center; justify-content:center; padding:0 4px; }
+.chat-empty { text-align:center; padding:50px 30px; }
+.chat-empty-icon { font-size:60px; margin-bottom:16px; }
+.chat-empty-title { font-size:16px; font-weight:700; color:var(--text); margin-bottom:6px; }
+.chat-empty-sub { font-size:13px; color:var(--text-muted); line-height:1.5; }
+.chat-header { background:#fff; padding:50px 20px 16px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:12px; position:sticky; top:0; z-index:10; }
+.chat-back { width:36px; height:36px; border-radius:50%; background:var(--bg); display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; }
+.chat-screen { display:none; }
+.chat-screen.visible { display:flex; flex-direction:column; }
+.chat-messages { flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:10px; min-height:200px; }
+.msg-bubble { max-width:75%; padding:10px 14px; border-radius:16px; font-size:13px; line-height:1.5; }
+.msg-out { background:linear-gradient(135deg,var(--primary),var(--primary-dark)); color:#fff; align-self:flex-end; border-bottom-right-radius:4px; }
+.msg-in { background:#F0F0F8; color:var(--text); align-self:flex-start; border-bottom-left-radius:4px; }
+.msg-time { font-size:10px; opacity:.6; margin-top:4px; }
+.chat-input-bar { padding:12px 16px; background:#fff; border-top:1px solid var(--border); display:flex; gap:10px; align-items:flex-end; }
+.chat-input { flex:1; background:#F5F5F5; border:none; border-radius:20px; padding:12px 16px; font-size:14px; font-family:inherit; outline:none; resize:none; max-height:100px; }
+.send-btn { width:44px; height:44px; background:linear-gradient(135deg,var(--primary),var(--primary-dark)); border-radius:50%; display:flex; align-items:center; justify-content:center; border:none; cursor:pointer; flex-shrink:0; }
+
+/* ========== PROFILE ========== */
+.profile-header { background:linear-gradient(135deg,var(--secondary),#16213E); padding:50px 20px 30px; text-align:center; position:relative; overflow:hidden; }
+.profile-header::before { content:''; position:absolute; right:-80px; top:-80px; width:250px; height:250px; background:rgba(255,107,53,.08); border-radius:50%; }
+.profile-avatar-wrap { position:relative; display:inline-block; margin-bottom:14px; }
+.profile-avatar { width:86px; height:86px; border-radius:50%; object-fit:cover; border:3px solid rgba(255,255,255,.3); display:block; }
+.profile-name { font-size:20px; font-weight:800; color:#fff; }
+.profile-email { font-size:13px; color:rgba(255,255,255,.5); margin-top:4px; }
+.profile-stats { display:flex; justify-content:center; gap:32px; margin-top:20px; padding-top:20px; border-top:1px solid rgba(255,255,255,.1); }
+.stat-item { text-align:center; }
+.stat-num { font-size:20px; font-weight:800; color:#fff; }
+.stat-label { font-size:11px; color:rgba(255,255,255,.5); margin-top:2px; }
+.menu-list { padding:16px; }
+.menu-group { background:#fff; border-radius:16px; overflow:hidden; margin-bottom:14px; box-shadow:0 2px 10px rgba(0,0,0,.05); }
+.menu-item { display:flex; align-items:center; gap:14px; padding:15px 16px; cursor:pointer; transition:background .15s; border-bottom:1px solid var(--border); }
+.menu-item:last-child { border-bottom:none; }
+.menu-item:active { background:#F8F8FC; }
+.menu-icon { width:38px; height:38px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+.menu-text { flex:1; }
+.menu-title { font-size:14px; font-weight:600; color:var(--text); }
+.menu-sub { font-size:11px; color:var(--text-muted); margin-top:2px; }
+.menu-arrow { color:var(--text-muted); }
+.menu-ic1 { background:#FFF0EB; } .menu-ic2 { background:#E8F4FD; } .menu-ic3 { background:#FFF3E0; }
+.menu-ic4 { background:#F5F0FF; } .menu-ic5 { background:#FFE8E8; } .menu-ic6 { background:#E8FFE8; }
+.menu-logout .menu-title { color:var(--danger); }
+
+/* ========== EDIT PROFILE MODAL ========== */
+.edit-modal .modal-sheet { max-height:85vh; }
+.avatar-edit-btn { width:80px; height:80px; border-radius:50%; position:relative; margin:0 auto 20px; display:block; cursor:pointer; }
+.avatar-edit-img { width:100%; height:100%; border-radius:50%; object-fit:cover; border:2.5px solid var(--border); }
+.avatar-edit-overlay { position:absolute; bottom:0; right:0; width:26px; height:26px; background:var(--primary); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; border:2px solid #fff; }
+.avatar-edit-input { display:none; }
+
+/* ========== HISTORY ========== */
+.history-item { background:#fff; border-radius:16px; padding:16px; margin-bottom:10px; box-shadow:0 2px 10px rgba(0,0,0,.05); cursor:pointer; }
+.hist-top { display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+.hist-av { width:44px; height:44px; border-radius:50%; object-fit:cover; border:2px solid var(--border); }
+.hist-info { flex:1; }
+.hist-name { font-size:14px; font-weight:700; }
+.hist-date { font-size:11px; color:var(--text-muted); }
+.hist-badge { padding:4px 10px; border-radius:20px; font-size:11px; font-weight:600; }
+.badge-done { background:#DCFCE7; color:#16A34A; }
+.badge-proc { background:#FEF3C7; color:#D97706; }
+.hist-desc { font-size:13px; color:var(--text-muted); margin-bottom:10px; }
+.hist-price { font-size:16px; font-weight:800; color:var(--primary); }
+.hist-rate-btn { background:#FFF0EB; color:var(--primary); border:none; border-radius:8px; padding:6px 14px; font-size:12px; font-weight:600; cursor:pointer; font-family:inherit; }
+
+/* ========== ATTENTION / SUPPORT / REPORT ========== */
+.info-page { padding:16px; }
+.warn-card { background:#fff; border-radius:16px; padding:20px; margin-bottom:14px; box-shadow:0 2px 10px rgba(0,0,0,.05); }
+.warn-card h3 { font-size:15px; font-weight:700; display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+.warn-card p, .warn-card li { font-size:13px; color:var(--text-muted); line-height:1.7; }
+.warn-card ul { padding-left:18px; }
+.warn-card.red h3 { color:var(--danger); }
+.warn-card.orange h3 { color:var(--warning); }
+.warn-card.green h3 { color:var(--success); }
+
+/* ========== PAGE HEADERS ========== */
+.page-header { background:#fff; padding:50px 20px 16px; border-bottom:1px solid var(--border); position:sticky; top:0; z-index:10; }
+.page-header h2 { font-size:20px; font-weight:800; }
+.page-header p { font-size:13px; color:var(--text-muted); margin-top:3px; }
+
+/* ========== TOAST ========== */
+.toast { position:fixed; bottom:calc(var(--nav-h) + 16px); left:50%; transform:translateX(-50%) translateY(20px); background:var(--secondary); color:#fff; padding:12px 20px; border-radius:30px; font-size:13px; font-weight:600; z-index:1000; opacity:0; transition:all .3s; pointer-events:none; white-space:nowrap; }
+.toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+.toast.success { background:var(--success); }
+.toast.error { background:var(--danger); }
+
+/* ========== LOADING OVERLAY ========== */
+.loading-overlay { position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:2000; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity .2s; }
+.loading-overlay.show { opacity:1; pointer-events:all; }
+.loading-box { background:#fff; border-radius:20px; padding:30px 40px; text-align:center; }
+.loading-spin { width:40px; height:40px; border:3px solid var(--border); border-top-color:var(--primary); border-radius:50%; animation:spin .7s linear infinite; margin:0 auto 14px; }
+.loading-txt { font-size:13px; font-weight:600; color:var(--text-muted); }
+@keyframes spin { to { transform:rotate(360deg); } }
+
+/* ========== RATING MODAL ========== */
+.stars-row { display:flex; justify-content:center; gap:10px; margin:20px 0; }
+.star-rate { font-size:36px; cursor:pointer; transition:transform .2s; }
+.star-rate.active { transform:scale(1.2); }
+
+/* ========== SUPPORT / REPORT ========== */
+.support-link { display:flex; align-items:center; gap:12px; background:#fff; border-radius:14px; padding:16px; margin-bottom:10px; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.05); text-decoration:none; }
+.support-icon { width:42px; height:42px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px; }
+.support-text h4 { font-size:14px; font-weight:700; color:var(--text); }
+.support-text p { font-size:12px; color:var(--text-muted); margin-top:2px; }
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div class="screen" id="splash">
+  <div class="splash-logo">🔥</div>
+  <div class="splash-title">BBQ</div>
+  <div class="splash-sub">Butuh Bantuan Ku</div>
+  <div class="splash-loader"><div class="splash-loader-bar"></div></div>
+</div>
+
+<!-- LOGIN -->
+<div class="screen hidden" id="login">
+  <div class="login-hero">
+    <div class="login-logo">🔥</div>
+    <div class="login-title">Butuh Bantuan Ku</div>
+    <div class="login-sub">Platform jasa bantuan terpercaya<br>dari orang-orang sekitarmu</div>
+    <div class="login-tagline">
+      <span class="tag-badge">⚡ Cepat</span>
+      <span class="tag-badge">🛡️ Aman</span>
+      <span class="tag-badge">💯 Terpercaya</span>
+    </div>
+  </div>
+  <div class="login-card">
+    <h3>Masuk ke Akun Anda</h3>
+    <p>Gunakan akun Google untuk masuk dengan cepat dan aman</p>
+    <button class="btn-google" id="btnGoogle">
+      <svg class="google-icon" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+      Masuk dengan Google
+    </button>
+    <div class="features">
+      <div class="feat-item"><div class="feat-icon">🏍️</div><div class="feat-text">Ojek & Antar</div></div>
+      <div class="feat-item"><div class="feat-icon">🛒</div><div class="feat-text">Belanja & Ambil</div></div>
+      <div class="feat-item"><div class="feat-icon">🔧</div><div class="feat-text">Servis Rumah</div></div>
+      <div class="feat-item"><div class="feat-icon">🤝</div><div class="feat-text">Bantuan Umum</div></div>
+    </div>
+    <div class="login-note">Dengan masuk, Anda menyetujui syarat & ketentuan BBQ.<br>Data Anda aman dan terenkripsi.</div>
+  </div>
+</div>
+
+<!-- FORM REGISTRASI -->
+<div class="screen hidden" id="form-page">
+  <div class="form-header">
+    <h2>📋 Lengkapi Profil</h2>
+    <p>Isi formulir untuk mulai menggunakan BBQ</p>
+    <div class="progress-bar"><div class="progress-fill" id="progFill"></div></div>
+  </div>
+  <div class="form-body">
+    <div class="form-section">
+      <h3><span>📸</span> Foto KTP Selfie</h3>
+      <div class="ktp-upload" id="ktpUpload" onclick="document.getElementById('ktpInput').click()">
+        <input type="file" id="ktpInput" accept="image/*" onchange="handleKTPUpload(this)">
+        <div class="ktp-icon">🪪</div>
+        <div class="ktp-text">Upload foto pegang KTP</div>
+        <div class="ktp-sub">Format: JPG, PNG, WEBP • Maks 5MB</div>
+        <img id="ktpPreview" class="ktp-preview" alt="Preview KTP">
+      </div>
+    </div>
+    <div class="form-section">
+      <h3><span>👤</span> Data Diri</h3>
+      <div class="field">
+        <label>Nama Lengkap</label>
+        <input type="text" id="fNama" placeholder="Masukkan nama lengkap">
+      </div>
+      <div class="field">
+        <label>Alamat Lengkap</label>
+        <input type="text" id="fAlamat" placeholder="Jl. ... No. ..., RT/RW, Kelurahan">
+      </div>
+      <div class="field">
+        <label>Domisili (Singkat)</label>
+        <input type="text" id="fDomisili" placeholder="Contoh: Jakarta Selatan">
+      </div>
+      <div class="field">
+        <label>Jenis Kelamin</label>
+        <div class="gender-row">
+          <div class="gender-btn" id="gbL" onclick="setGender('L')">👨 Laki-laki</div>
+          <div class="gender-btn" id="gbP" onclick="setGender('P')">👩 Perempuan</div>
+        </div>
+      </div>
+    </div>
+    <button class="btn-submit" onclick="submitRegistrasi()">Daftar & Mulai 🚀</button>
+    <div style="height:20px"></div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div class="screen hidden" id="app">
+
+  <!-- HOME TAB -->
+  <div class="tab-panel active" id="tab-home">
+    <div class="home-header">
+      <div class="header-top">
+        <div>
+          <div class="header-greeting" id="headerGreeting">Selamat datang,</div>
+          <div class="header-name" id="headerName">...</div>
+        </div>
+        <img id="headerAvatar" class="header-avatar" src="https://ui-avatars.com/api/?name=User&background=FF6B35&color=fff" alt="avatar" onclick="goToTab('profil')">
+      </div>
+      <div class="header-datetime">
+        <div class="datetime-day" id="dtDay">Senin</div>
+        <div class="datetime-clock" id="dtClock">00:00</div>
+        <div class="datetime-date" id="dtDate">1 Januari 2025</div>
+        <div class="weather-badge"><span>☀️</span><span>BBQ siap membantu Anda hari ini!</span></div>
+      </div>
+    </div>
+
+    <div class="home-card">
+      <div class="home-card-title">🎯 Silahkan pilih bantuan yang Anda butuhkan</div>
+      <div class="home-card-sub">Ketuk kategori untuk mencari helper</div>
+      <div class="categories" id="categoryGrid"></div>
+    </div>
+
+    <div class="find-btn" onclick="findHelpers()">
+      <div class="find-btn-left">
+        <h3>🔍 Temukan Helper</h3>
+        <p>Cari helper aktif di sekitarmu sekarang</p>
+      </div>
+      <div class="find-btn-icon">📡</div>
+    </div>
+
+    <div id="helperSection" style="display:none">
+      <div class="section-title">👷 Helper Aktif Sekarang</div>
+      <div class="active-strip" id="activeStrip"></div>
+      <div class="helper-list" id="helperList"></div>
+    </div>
+    <div style="height:16px"></div>
+  </div>
+
+  <!-- CHAT TAB -->
+  <div class="tab-panel" id="tab-chat">
+    <div id="chatListView">
+      <div class="page-header">
+        <h2>💬 Pesan</h2>
+        <p>Chat dengan helper Anda</p>
+      </div>
+      <div class="chat-list" id="chatListContainer"></div>
+    </div>
+    <div id="chatConvView" class="chat-screen" style="height:calc(100vh - var(--nav-h));flex-direction:column;">
+      <div class="chat-header">
+        <div class="chat-back" onclick="closeChatConv()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+        </div>
+        <img id="convAvatar" src="" class="chat-av" style="width:40px;height:40px;" alt="">
+        <div>
+          <div id="convName" style="font-size:15px;font-weight:700;"></div>
+          <div style="font-size:11px;color:var(--success);font-weight:600;">● Online</div>
+        </div>
+      </div>
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="chat-input-bar">
+        <textarea class="chat-input" id="chatInput" placeholder="Tulis pesan..." rows="1" oninput="autoResize(this)"></textarea>
+        <button class="send-btn" onclick="sendChatMsg()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFIL TAB -->
+  <div class="tab-panel" id="tab-profil">
+    <div id="profilMain">
+      <div class="profile-header">
+        <div class="profile-avatar-wrap">
+          <img id="profAvatar" src="https://ui-avatars.com/api/?name=User&background=FF6B35&color=fff" class="profile-avatar" alt="">
+        </div>
+        <div class="profile-name" id="profName">Loading...</div>
+        <div class="profile-email" id="profEmail">loading@email.com</div>
+        <div class="profile-stats">
+          <div class="stat-item"><div class="stat-num" id="statOrder">0</div><div class="stat-label">Order</div></div>
+          <div class="stat-item"><div class="stat-num" id="statRating">—</div><div class="stat-label">Rating</div></div>
+          <div class="stat-item"><div class="stat-num" id="statDom">—</div><div class="stat-label">Domisili</div></div>
+        </div>
+      </div>
+      <div class="menu-list">
+        <div class="menu-group">
+          <div class="menu-item" onclick="openEditProfil()">
+            <div class="menu-icon menu-ic1">✏️</div>
+            <div class="menu-text"><div class="menu-title">Edit Profil</div><div class="menu-sub">Ubah nama, foto, alamat, gender</div></div>
+            <svg class="menu-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+          <div class="menu-item" onclick="openRiwayat()">
+            <div class="menu-icon menu-ic2">📋</div>
+            <div class="menu-text"><div class="menu-title">Riwayat Transaksi</div><div class="menu-sub">Lihat semua riwayat orderan</div></div>
+            <svg class="menu-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </div>
+        <div class="menu-group">
+          <div class="menu-item" onclick="openPerhatian()">
+            <div class="menu-icon menu-ic3">⚠️</div>
+            <div class="menu-text"><div class="menu-title">Perhatian Umum</div><div class="menu-sub">Tips keamanan penggunaan BBQ</div></div>
+            <svg class="menu-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+          <div class="menu-item" onclick="openDukung()">
+            <div class="menu-icon menu-ic4">💜</div>
+            <div class="menu-text"><div class="menu-title">Dukung Developer</div><div class="menu-sub">Support pengembangan BBQ</div></div>
+            <svg class="menu-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+          <div class="menu-item" onclick="openLaporkan()">
+            <div class="menu-icon menu-ic5">🚨</div>
+            <div class="menu-text"><div class="menu-title">Laporkan</div><div class="menu-sub">Laporkan penyalahgunaan platform</div></div>
+            <svg class="menu-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </div>
+        <div class="menu-group">
+          <div class="menu-item menu-logout" onclick="doLogout()">
+            <div class="menu-icon" style="background:#FFE8E8;">🚪</div>
+            <div class="menu-text"><div class="menu-title">Keluar</div><div class="menu-sub">Logout dari akun BBQ</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sub pages in profil -->
+    <div id="subRiwayat" style="display:none">
+      <div class="page-header" style="display:flex;align-items:center;gap:12px;">
+        <div class="chat-back" onclick="closeSubPage('subRiwayat')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+        </div>
+        <div><h2>Riwayat Transaksi</h2><p style="font-size:12px;color:var(--text-muted)">Semua orderan Anda</p></div>
+      </div>
+      <div style="padding:16px;" id="riwayatList"></div>
+    </div>
+
+    <div id="subPerhatian" style="display:none">
+      <div class="page-header" style="display:flex;align-items:center;gap:12px;">
+        <div class="chat-back" onclick="closeSubPage('subPerhatian')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+        </div>
+        <div><h2>Perhatian Umum</h2></div>
+      </div>
+      <div class="info-page">
+        <div class="warn-card red">
+          <h3>🚨 Privasi & Identitas</h3>
+          <ul>
+            <li>Jangan berikan nomor KTP, SIM, atau identitas asli kepada helper</li>
+            <li>Jangan bagikan password, PIN, atau OTP kepada siapapun</li>
+            <li>Jangan transfer uang di luar platform BBQ</li>
+            <li>Waspada terhadap penipuan berkedok helper BBQ</li>
+          </ul>
+        </div>
+        <div class="warn-card orange">
+          <h3>⚠️ Keselamatan Bertransaksi</h3>
+          <ul>
+            <li>Selalu gunakan fitur chat resmi BBQ untuk komunikasi</li>
+            <li>Bayar setelah pekerjaan selesai dan Anda puas</li>
+            <li>Pilih helper dengan rating tinggi dan ulasan baik</li>
+            <li>Temui helper di tempat umum untuk pertama kali</li>
+            <li>Informasikan ke orang terdekat saat menggunakan helper</li>
+          </ul>
+        </div>
+        <div class="warn-card green">
+          <h3>✅ Tips Aman Menggunakan BBQ</h3>
+          <ul>
+            <li>Baca profil dan ulasan helper sebelum order</li>
+            <li>Deskripsikan pekerjaan dengan jelas dan detail</li>
+            <li>Sepakati harga sebelum pekerjaan dimulai</li>
+            <li>Berikan ulasan jujur setelah transaksi selesai</li>
+            <li>Laporkan helper yang berperilaku tidak patut</li>
+          </ul>
+        </div>
+        <div class="warn-card">
+          <h3>📞 Kontak Darurat</h3>
+          <p>Polisi: 110 | Ambulans: 118 | PMK: 113 | SAR: 115</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="subDukung" style="display:none">
+      <div class="page-header" style="display:flex;align-items:center;gap:12px;">
+        <div class="chat-back" onclick="closeSubPage('subDukung')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+        </div>
+        <div><h2>Dukung Developer</h2></div>
+      </div>
+      <div class="info-page">
+        <div class="warn-card green">
+          <h3>💚 BBQ - Butuh Bantuan Ku</h3>
+          <p>Aplikasi ini dikembangkan dengan penuh cinta untuk membantu masyarakat saling terhubung. Dukungan Anda sangat berarti untuk pengembangan fitur-fitur baru!</p>
+        </div>
+        <a href="https://saweria.co" target="_blank" class="support-link">
+          <div class="support-icon" style="background:#FFF0EB;">☕</div>
+          <div class="support-text"><h4>Traktir Kopi via Saweria</h4><p>saweria.co/bbqapp</p></div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+        </a>
+        <a href="https://github.com/bbqapp" target="_blank" class="support-link">
+          <div class="support-icon" style="background:#F0F0F8;">💻</div>
+          <div class="support-text"><h4>GitHub Repository</h4><p>Kontribusi kode di GitHub</p></div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+        </a>
+        <a href="https://play.google.com/store" target="_blank" class="support-link">
+          <div class="support-icon" style="background:#E8F4FD;">⭐</div>
+          <div class="support-text"><h4>Beri Rating 5 Bintang</h4><p>Di Google Play Store</p></div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+        </a>
+        <a href="https://instagram.com/bbqapp" target="_blank" class="support-link">
+          <div class="support-icon" style="background:#FFE8F5;">📸</div>
+          <div class="support-text"><h4>Follow Instagram BBQ</h4><p>@bbqbutuhbantuanku</p></div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div id="subLaporkan" style="display:none">
+      <div class="page-header" style="display:flex;align-items:center;gap:12px;">
+        <div class="chat-back" onclick="closeSubPage('subLaporkan')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+        </div>
+        <div><h2>Laporkan</h2></div>
+      </div>
+      <div class="info-page">
+        <div class="warn-card red">
+          <h3>🚨 Laporkan Penyalahgunaan</h3>
+          <p>Jika Anda menemukan penyalahgunaan platform, penipuan, atau konten tidak pantas, segera laporkan kepada kami.</p>
+        </div>
+        <div class="form-section" style="background:#fff;border-radius:16px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,.05);">
+          <div class="field"><label>Jenis Laporan</label>
+            <select id="reportType">
+              <option>Penipuan oleh Helper</option>
+              <option>Konten Tidak Pantas</option>
+              <option>Pelecehan / Intimidasi</option>
+              <option>Data Palsu / Tidak Valid</option>
+              <option>Spam / Iklan Tidak Sah</option>
+              <option>Lainnya</option>
+            </select>
+          </div>
+          <div class="field"><label>Nama / ID yang Dilaporkan</label>
+            <input type="text" id="reportTarget" placeholder="Nama atau ID helper">
+          </div>
+          <div class="field"><label>Detail Laporan</label>
+            <textarea id="reportDetail" placeholder="Ceritakan kejadian secara detail..."></textarea>
+          </div>
+          <button class="btn-submit" onclick="kirimLaporan()">Kirim Laporan 📤</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <div class="nav-item active" id="nav-home" onclick="goToTab('home')">
+      <div class="nav-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <span class="nav-label" style="color:var(--primary)">Home</span>
+    </div>
+    <div class="nav-item" id="nav-chat" onclick="goToTab('chat')">
+      <div class="nav-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      </div>
+      <span class="nav-label">Chat</span>
+      <div class="nav-badge" id="chatBadge" style="display:none">0</div>
+    </div>
+    <div class="nav-item" id="nav-profil" onclick="goToTab('profil')">
+      <div class="nav-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <span class="nav-label">Profil</span>
+    </div>
+  </nav>
+</div>
+
+<!-- ORDER MODAL -->
+<div class="modal-overlay" id="orderModal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-avatar-row">
+      <img id="orderHelperAvatar" class="modal-avatar" src="" alt="">
+      <div>
+        <div class="modal-helper-name" id="orderHelperName"></div>
+        <div class="modal-helper-sub" id="orderHelperSub"></div>
+      </div>
+    </div>
+    <div class="modal-field">
+      <label>Pilih Kategori Layanan</label>
+      <select id="orderCategory"></select>
+    </div>
+    <div class="modal-field">
+      <label>Deskripsi Bantuan</label>
+      <textarea id="orderDesc" placeholder="Ceritakan apa yang Anda butuhkan secara detail..."></textarea>
+    </div>
+    <div class="modal-field">
+      <label>Catatan Tambahan</label>
+      <textarea id="orderNote" placeholder="Catatan khusus untuk helper..." style="height:60px;"></textarea>
+    </div>
+    <div class="modal-field">
+      <label>Nominal Bayaran</label>
+      <div class="modal-price-row">
+        <div class="price-prefix">Rp</div>
+        <input type="number" id="orderPrice" placeholder="50000" style="flex:1;">
+      </div>
+    </div>
+    <button class="btn-order" onclick="submitOrder()">📤 Kirim Permintaan</button>
+    <div style="height:8px"></div>
+    <button style="width:100%;background:none;border:none;color:var(--text-muted);font-size:14px;padding:10px;cursor:pointer;font-family:inherit;" onclick="closeModal('orderModal')">Batal</button>
+  </div>
+</div>
+
+<!-- EDIT PROFIL MODAL -->
+<div class="modal-overlay edit-modal" id="editProfilModal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <h3 style="font-size:18px;font-weight:800;margin-bottom:20px;">✏️ Edit Profil</h3>
+    <label class="avatar-edit-btn" for="editAvatarInput">
+      <img id="editAvatarImg" class="avatar-edit-img" src="" alt="">
+      <div class="avatar-edit-overlay">📷</div>
+    </label>
+    <input type="file" id="editAvatarInput" class="avatar-edit-input" accept="image/*" onchange="handleEditAvatar(this)">
+    <div class="modal-field"><label>Nama Lengkap</label><input type="text" id="editNama" placeholder="Nama lengkap"></div>
+    <div class="modal-field"><label>Alamat</label><input type="text" id="editAlamat" placeholder="Alamat lengkap"></div>
+    <div class="modal-field"><label>Domisili</label><input type="text" id="editDomisili" placeholder="Kota domisili"></div>
+    <div class="modal-field"><label>Jenis Kelamin</label>
+      <select id="editGender"><option value="L">👨 Laki-laki</option><option value="P">👩 Perempuan</option></select>
+    </div>
+    <button class="btn-order" onclick="saveEditProfil()">💾 Simpan Perubahan</button>
+    <div style="height:8px"></div>
+    <button style="width:100%;background:none;border:none;color:var(--text-muted);font-size:14px;padding:10px;cursor:pointer;font-family:inherit;" onclick="closeModal('editProfilModal')">Batal</button>
+    <div style="height:10px"></div>
+  </div>
+</div>
+
+<!-- RATING MODAL -->
+<div class="modal-overlay" id="ratingModal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <h3 style="font-size:18px;font-weight:800;text-align:center;">⭐ Beri Ulasan</h3>
+    <p style="text-align:center;font-size:13px;color:var(--text-muted);margin-top:6px;">Bagaimana pengalaman Anda dengan <span id="ratingHelperName" style="font-weight:700;color:var(--text);"></span>?</p>
+    <div class="stars-row" id="starsRow">
+      <span class="star-rate" data-v="1" onclick="setRating(1)">⭐</span>
+      <span class="star-rate" data-v="2" onclick="setRating(2)">⭐</span>
+      <span class="star-rate" data-v="3" onclick="setRating(3)">⭐</span>
+      <span class="star-rate" data-v="4" onclick="setRating(4)">⭐</span>
+      <span class="star-rate" data-v="5" onclick="setRating(5)">⭐</span>
+    </div>
+    <div class="modal-field"><label>Komentar</label><textarea id="ratingComment" placeholder="Ceritakan pengalaman Anda..." style="height:80px;width:100%;background:#F8F8FC;border:1.5px solid var(--border);border-radius:10px;padding:12px;font-size:14px;font-family:inherit;outline:none;resize:none;"></textarea></div>
+    <button class="btn-order" onclick="submitRating()">Kirim Ulasan 🚀</button>
+    <div style="height:8px"></div>
+    <button style="width:100%;background:none;border:none;color:var(--text-muted);font-size:14px;padding:10px;cursor:pointer;font-family:inherit;" onclick="closeModal('ratingModal')">Lewati</button>
+    <div style="height:10px"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+<!-- LOADING -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-box">
+    <div class="loading-spin"></div>
+    <div class="loading-txt" id="loadingTxt">Memproses...</div>
+  </div>
+</div>
+
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getDatabase, ref, set, get, push, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import { getStorage, ref as sRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyASIgjZ_hqMFTmVJfRV8JnxmbbH78wCJY0",
+  authDomain: "bbq-butuh-bantuan-ku.firebaseapp.com",
+  databaseURL: "https://bbq-butuh-bantuan-ku-default-rtdb.firebaseio.com",
+  projectId: "bbq-butuh-bantuan-ku",
+  storageBucket: "bbq-butuh-bantuan-ku.firebasestorage.app",
+  messagingSenderId: "1018956872787",
+  appId: "1:1018956872787:web:6056f533ae86654dc11aa6",
+  measurementId: "G-FHDPFLXFCF"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app);
+const storage = getStorage(app);
+
+// Expose to global
+window._fbAuth = auth;
+window._fbDb = db;
+window._fbStorage = storage;
+window._fbRef = ref;
+window._fbGet = get;
+window._fbSet = set;
+window._fbPush = push;
+window._fbOnValue = onValue;
+window._fbServerTimestamp = serverTimestamp;
+window._fbSRef = sRef;
+window._fbUploadBytes = uploadBytes;
+window._fbGetDownloadURL = getDownloadURL;
+window._GoogleAuthProvider = GoogleAuthProvider;
+window._signInWithPopup = signInWithPopup;
+window._signOut = signOut;
+window._onAuthStateChanged = onAuthStateChanged;
+
+// Auth state listener
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    window._currentUser = user;
+    const uid = user.uid;
+    // Check if user is registered
+    const snap = await get(ref(db, `users/${uid}`));
+    if (snap.exists()) {
+      const udata = snap.val();
+      window._userData = udata;
+      saveLocal('userData', udata);
+      showApp();
+    } else {
+      // Pre-fill name from Google
+      document.getElementById('fNama').value = user.displayName || '';
+      showScreen('form-page');
+    }
+  } else {
+    window._currentUser = null;
+    window._userData = null;
+    showScreen('login');
+  }
+});
+
+window._fbReady = true;
+});
+
+// ===== LOCAL STORAGE HELPERS =====
+function saveLocal(key, val) { try { localStorage.setItem('bbq_'+key, JSON.stringify(val)); } catch(e){} }
+function loadLocal(key, def) { try { const v = localStorage.getItem('bbq_'+key); return v ? JSON.parse(v) : def; } catch(e){ return def; } }
+window.saveLocal = saveLocal;
+window.loadLocal = loadLocal;
+
+// ===== UI HELPERS =====
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+}
+window.showScreen = showScreen;
+
+function showLoading(txt='Memproses...') {
+  document.getElementById('loadingTxt').textContent = txt;
+  document.getElementById('loadingOverlay').classList.add('show');
+}
+function hideLoading() { document.getElementById('loadingOverlay').classList.remove('show'); }
+window.showLoading = showLoading;
+window.hideLoading = hideLoading;
+
+function showToast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  setTimeout(() => t.className = 'toast', 2500);
+}
+window.showToast = showToast;
+
+function openModal(id) { document.getElementById(id).classList.add('show'); }
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+window.openModal = openModal;
+window.closeModal = closeModal;
+
+// ===== SPLASH =====
+setTimeout(() => {
+  const ud = loadLocal('userData', null);
+  const cu = loadLocal('currentUser', null);
+  if (!window._fbAuth) {
+    document.getElementById('splash').classList.add('hidden');
+    document.getElementById('login').classList.remove('hidden');
+  }
+}, 3200);
+
+// ===== CLOCK =====
+function updateClock() {
+  const now = new Date();
+  const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+  const months = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  const el = document.getElementById('dtClock');
+  if (el) el.textContent = `${h}:${m}:${s}`;
+  const dd = document.getElementById('dtDay');
+  if (dd) dd.textContent = days[now.getDay()];
+  const ddate = document.getElementById('dtDate');
+  if (ddate) ddate.textContent = `${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// ===== CATEGORIES =====
+const CATEGORIES = [
+  {id:'ojek', icon:'🏍️', label:'Ojek', color:'cat-c1'},
+  {id:'kencan', icon:'💑', label:'Kencan', color:'cat-c2'},
+  {id:'kondangan', icon:'💍', label:'Ke Kondangan', color:'cat-c3'},
+  {id:'mabar', icon:'🎮', label:'Mabar Games', color:'cat-c4'},
+  {id:'mancing', icon:'🎣', label:'Mancing', color:'cat-c5'},
+  {id:'ambil_barang', icon:'📦', label:'Ambil Barang', color:'cat-c6'},
+  {id:'antrian', icon:'🎟️', label:'Antri Antrian', color:'cat-c7'},
+  {id:'potong_rumput', icon:'🌿', label:'Potong Rumput', color:'cat-c8'},
+  {id:'bersih_halaman', icon:'🏡', label:'Bersihkan Halaman', color:'cat-c1'},
+  {id:'bersih_wc', icon:'🚽', label:'Bersihkan WC', color:'cat-c2'},
+  {id:'belanja_pasar', icon:'🛒', label:'Belanja Pasar', color:'cat-c3'},
+  {id:'basmi_tikus', icon:'🐀', label:'Basmi Tikus', color:'cat-c4'},
+  {id:'benerin_genteng', icon:'🏠', label:'Benerin Genteng', color:'cat-c5'},
+  {id:'kehabisan_bensin', icon:'⛽', label:'Kehabisan Bensin', color:'cat-c6'},
+  {id:'mogok', icon:'🔧', label:'Kendaraan Mogok', color:'cat-c7'},
+  {id:'gotong_kursi', icon:'🪑', label:'Gotong Kursi', color:'cat-c8'},
+  {id:'kuli_panggul', icon:'💪', label:'Kuli Panggul', color:'cat-c1'},
+  {id:'bantu_sapi', icon:'🐄', label:'Bantu Lahiran Sapi', color:'cat-c2'},
+  {id:'lainnya', icon:'🤝', label:'Bantuan Lainnya', color:'cat-c3'},
+];
+window.CATEGORIES = CATEGORIES;
+
+function buildCategories() {
+  const grid = document.getElementById('categoryGrid');
+  if (!grid) return;
+  grid.innerHTML = CATEGORIES.map(c => `
+    <div class="cat-item" onclick="filterByCategory('${c.id}')">
+      <div class="cat-icon ${c.color}">${c.icon}</div>
+      <div class="cat-label">${c.label}</div>
+    </div>`).join('');
+}
+window.buildCategories = buildCategories;
+
+function filterByCategory(id) {
+  const cat = CATEGORIES.find(c => c.id === id);
+  showToast(`🔍 Mencari helper ${cat ? cat.label : id}...`);
+  findHelpers(id);
+}
+window.filterByCategory = filterByCategory;
+
+// ===== SHOW APP =====
+function showApp() {
+  showScreen('app');
+  const ud = window._userData;
+  if (!ud) return;
+  const first = (ud.nama || '').split(' ')[0];
+  document.getElementById('headerName').textContent = first;
+  document.getElementById('headerAvatar').src = ud.fotoUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(ud.nama||'User')}&background=FF6B35&color=fff`;
+  document.getElementById('profAvatar').src = ud.fotoUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(ud.nama||'User')}&background=FF6B35&color=fff`;
+  document.getElementById('profName').textContent = ud.nama || 'Pengguna';
+  document.getElementById('profEmail').textContent = window._currentUser?.email || '';
+  document.getElementById('statDom').textContent = (ud.domisili||'—').split(' ')[0];
+
+  const orders = loadLocal('orders', []);
+  document.getElementById('statOrder').textContent = orders.length;
+
+  buildCategories();
+  buildChatList();
+  updateClock();
+
+  // greeting
+  const hr = new Date().getHours();
+  const greet = hr < 11 ? 'Selamat Pagi 🌅' : hr < 15 ? 'Selamat Siang ☀️' : hr < 18 ? 'Selamat Sore 🌤️' : 'Selamat Malam 🌙';
+  document.getElementById('headerGreeting').textContent = greet + ',';
+}
+window.showApp = showApp;
+
+// ===== LOGIN =====
+document.getElementById('btnGoogle').addEventListener('click', async () => {
+  showLoading('Menghubungkan dengan Google...');
+  try {
+    const provider = new window._GoogleAuthProvider();
+    await window._signInWithPopup(window._fbAuth, provider);
+    hideLoading();
+  } catch(e) {
+    hideLoading();
+    showToast('❌ Login gagal: ' + e.message, 'error');
+  }
+});
+
+// ===== FORM REGISTRASI =====
+let selectedGender = '';
+let ktpBase64 = '';
+
+function setGender(g) {
+  selectedGender = g;
+  document.getElementById('gbL').classList.toggle('active', g === 'L');
+  document.getElementById('gbP').classList.toggle('active', g === 'P');
+  document.getElementById('progFill').style.width = '75%';
+}
+window.setGender = setGender;
+
+async function handleKTPUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) { showToast('❌ File terlalu besar (maks 5MB)', 'error'); return; }
+  showLoading('Memproses foto...');
+  
+  // Convert to webp using canvas
+  const img = new Image();
+  img.onload = async () => {
+    const canvas = document.createElement('canvas');
+    const maxW = 800;
+    const ratio = Math.min(maxW / img.width, maxW / img.height);
+    canvas.width = img.width * ratio;
+    canvas.height = img.height * ratio;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    
+    canvas.toBlob(blob => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        ktpBase64 = reader.result;
+        const prev = document.getElementById('ktpPreview');
+        prev.src = ktpBase64;
+        prev.style.display = 'block';
+        document.getElementById('ktpUpload').style.border = '2px solid var(--success)';
+        document.getElementById('progFill').style.width = '50%';
+        hideLoading();
+        showToast('✅ Foto KTP berhasil diunggah');
+      };
+      reader.readAsDataURL(blob);
+    }, 'image/webp', 0.85);
+  };
+  img.src = URL.createObjectURL(file);
+}
+window.handleKTPUpload = handleKTPUpload;
+
+async function submitRegistrasi() {
+  const nama = document.getElementById('fNama').value.trim();
+  const alamat = document.getElementById('fAlamat').value.trim();
+  const domisili = document.getElementById('fDomisili').value.trim();
+  if (!ktpBase64) { showToast('❌ Upload foto KTP terlebih dahulu', 'error'); return; }
+  if (!nama) { showToast('❌ Nama tidak boleh kosong', 'error'); return; }
+  if (!alamat) { showToast('❌ Alamat tidak boleh kosong', 'error'); return; }
+  if (!domisili) { showToast('❌ Domisili tidak boleh kosong', 'error'); return; }
+  if (!selectedGender) { showToast('❌ Pilih jenis kelamin', 'error'); return; }
+
+  showLoading('Mendaftarkan akun...');
+
+  const user = window._currentUser;
+  const uid = user.uid;
+
+  try {
+    // Upload KTP to Firebase Storage
+    const ktpBlob = await (await fetch(ktpBase64)).blob();
+    const ktpStorageRef = window._fbSRef(window._fbStorage, `ktp/${uid}.webp`);
+    await window._fbUploadBytes(ktpStorageRef, ktpBlob);
+    const ktpUrl = await window._fbGetDownloadURL(ktpStorageRef);
+
+    const fotoUrl = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(nama)}&background=FF6B35&color=fff`;
+
+    const userData = {
+      uid, nama, alamat, domisili,
+      gender: selectedGender,
+      email: user.email,
+      fotoUrl,
+      ktpUrl,
+      createdAt: Date.now(),
+      rating: 0,
+      totalOrder: 0,
+      bio: 'Pengguna BBQ',
+      isHelper: false
+    };
+
+    await window._fbSet(window._fbRef(window._fbDb, `users/${uid}`), userData);
+    window._userData = userData;
+    saveLocal('userData', userData);
+    hideLoading();
+    showToast('🎉 Pendaftaran berhasil!', 'success');
+    setTimeout(() => showApp(), 800);
+  } catch(e) {
+    hideLoading();
+    // Fallback to local storage if Firebase Storage fails
+    const userData = {
+      uid, nama, alamat, domisili,
+      gender: selectedGender,
+      email: user.email,
+      fotoUrl: user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(nama)}&background=FF6B35&color=fff`,
+      ktpUrl: ktpBase64,
+      createdAt: Date.now(),
+      rating: 0, totalOrder: 0,
+      bio: 'Pengguna BBQ',
+      isHelper: false
+    };
+    try {
+      await window._fbSet(window._fbRef(window._fbDb, `users/${uid}`), {...userData, ktpUrl: 'stored_locally'});
+    } catch(e2) {}
+    window._userData = userData;
+    saveLocal('userData', userData);
+    hideLoading();
+    showToast('✅ Pendaftaran berhasil!', 'success');
+    setTimeout(() => showApp(), 800);
+  }
+}
+window.submitRegistrasi = submitRegistrasi;
+
+// ===== NAV =====
+let currentTab = 'home';
+function goToTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(`tab-${tab}`).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => {
+    n.classList.remove('active');
+    n.querySelectorAll('svg').forEach(s => s.setAttribute('stroke','var(--text-muted)'));
+    n.querySelector('.nav-label').style.color = 'var(--text-muted)';
+  });
+  const ni = document.getElementById(`nav-${tab}`);
+  if (ni) {
+    ni.classList.add('active');
+    ni.querySelectorAll('svg').forEach(s => s.setAttribute('stroke','var(--primary)'));
+    ni.querySelector('.nav-label').style.color = 'var(--primary)';
+  }
+  if (tab === 'chat') {
+    document.getElementById('chatBadge').style.display = 'none';
+    buildChatList();
+  }
+  if (tab === 'profil') {
+    // close sub pages
+    ['subRiwayat','subPerhatian','subDukung','subLaporkan'].forEach(s => document.getElementById(s).style.display = 'none');
+    document.getElementById('profilMain').style.display = 'block';
+  }
+  if (tab === 'home') buildCategories();
+}
+window.goToTab = goToTab;
+
+// ===== HELPERS DATA =====
+const DEMO_HELPERS = [
+  {id:'h1', nama:'Budi Santoso', gender:'L', umur:28, domisili:'Jakarta Selatan', bio:'Siap bantu apa saja, berpengalaman 5 tahun', rating:4.8, foto:'https://randomuser.me/api/portraits/men/32.jpg', categories:['ojek','ambil_barang','antrian'], isActive:true},
+  {id:'h2', nama:'Sari Dewi', gender:'P', umur:25, domisili:'Bekasi', bio:'Rajin, amanah, dan bisa diandalkan', rating:4.9, foto:'https://randomuser.me/api/portraits/women/44.jpg', categories:['belanja_pasar','kondangan','kencan'], isActive:true},
+  {id:'h3', nama:'Ahmad Rizki', gender:'L', umur:32, domisili:'Depok', bio:'Tukang serbabisa, handyman profesional', rating:4.7, foto:'https://randomuser.me/api/portraits/men/55.jpg', categories:['benerin_genteng','bersih_wc','bersih_halaman','potong_rumput'], isActive:true},
+  {id:'h4', nama:'Rina Wati', gender:'P', umur:22, domisili:'Tangerang', bio:'Baik, jujur, siap antar jemput belanja', rating:4.6, foto:'https://randomuser.me/api/portraits/women/67.jpg', categories:['belanja_pasar','ambil_barang','ojek'], isActive:true},
+  {id:'h5', nama:'Dodi Prasetyo', gender:'L', umur:35, domisili:'Jakarta Utara', bio:'Kuli panggul, gotong barang berat, sopir', rating:4.5, foto:'https://randomuser.me/api/portraits/men/78.jpg', categories:['kuli_panggul','gotong_kursi','mogok','kehabisan_bensin'], isActive:true},
+  {id:'h6', nama:'Lina Mulyani', gender:'P', umur:29, domisili:'Bogor', bio:'Suka masak, belanja, dan menemani', rating:4.9, foto:'https://randomuser.me/api/portraits/women/89.jpg', categories:['belanja_pasar','kondangan','lainnya'], isActive:false},
+  {id:'h7', nama:'Joko Widodo', gender:'L', umur:40, domisili:'Jakarta Timur', bio:'Pengalaman 10 tahun di bidang pertanian', rating:4.4, foto:'https://randomuser.me/api/portraits/men/90.jpg', categories:['bantu_sapi','basmi_tikus','potong_rumput'], isActive:true},
+  {id:'h8', nama:'Maya Sari', gender:'P', umur:27, domisili:'Jakarta Barat', bio:'Gamer, siap mabar kapan saja', rating:4.7, foto:'https://randomuser.me/api/portraits/women/23.jpg', categories:['mabar','lainnya'], isActive:true},
+];
+window.DEMO_HELPERS = DEMO_HELPERS;
+
+let currentFilterCat = null;
+let currentOrderHelper = null;
+let currentRatingOrder = null;
+let currentRating = 0;
+let currentChatHelper = null;
+
+function findHelpers(catFilter) {
+  if (catFilter) currentFilterCat = catFilter;
+  const section = document.getElementById('helperSection');
+  section.style.display = 'block';
+  
+  let helpers = DEMO_HELPERS.filter(h => h.isActive);
+  if (currentFilterCat && currentFilterCat !== 'all') {
+    helpers = helpers.filter(h => h.categories.includes(currentFilterCat));
+    if (helpers.length === 0) helpers = DEMO_HELPERS.filter(h => h.isActive);
+  }
+  
+  // Try to load from Firebase
+  try {
+    window._fbGet(window._fbRef(window._fbDb, 'users')).then(snap => {
+      if (snap.exists()) {
+        const fbUsers = snap.val();
+        const fbHelpers = Object.values(fbUsers).filter(u => u.isHelper && u.uid !== window._currentUser?.uid);
+        if (fbHelpers.length > 0) {
+          helpers = [...helpers, ...fbHelpers.map(u => ({
+            id: u.uid, nama: u.nama, gender: u.gender, umur: u.umur || 25,
+            domisili: u.domisili, bio: u.bio || 'Helper BBQ', rating: u.rating || 4.5,
+            foto: u.fotoUrl, categories: u.helperCategories || ['lainnya'], isActive: true
+          }))];
+        }
+        renderHelpers(helpers);
+      } else {
+        renderHelpers(helpers);
+      }
+    });
+  } catch(e) {
+    renderHelpers(helpers);
+  }
+  
+  // Build strip
+  const strip = document.getElementById('activeStrip');
+  strip.innerHTML = `<div class="active-chip selected" onclick="findHelpers('all')"><div class="chip-dot"></div><div class="chip-label">Semua</div></div>` +
+    CATEGORIES.slice(0,8).map(c => `<div class="active-chip" onclick="filterByCategory('${c.id}')"><div class="chip-dot"></div><div class="chip-label">${c.icon} ${c.label}</div></div>`).join('');
+}
+window.findHelpers = findHelpers;
+
+function renderHelpers(helpers) {
+  const list = document.getElementById('helperList');
+  if (!helpers.length) {
+    list.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text-muted);font-size:14px;">😔 Tidak ada helper aktif untuk kategori ini</div>';
+    return;
+  }
+  list.innerHTML = helpers.map(h => `
+    <div class="helper-card" onclick="openOrderModal('${h.id}')">
+      <img class="helper-avatar" src="${h.foto || `https://ui-avatars.com/api/?name=${encodeURIComponent(h.nama)}&background=FF6B35&color=fff`}" alt="${h.nama}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(h.nama)}&background=FF6B35&color=fff'">
+      <div class="helper-info">
+        <div class="helper-name-row">
+          <div class="helper-name">${h.nama}</div>
+          <div class="online-badge"></div>
+        </div>
+        <div class="helper-meta">
+          <div class="meta-item"><span class="star-icon">⭐</span>${h.rating}</div>
+          <div class="meta-item">👤 ${h.gender === 'L' ? 'Pria' : 'Wanita'}</div>
+          <div class="meta-item">🎂 ${h.umur} thn</div>
+          <div class="meta-item">📍 ${h.domisili}</div>
+        </div>
+        <div class="helper-bio">${h.bio}</div>
+        <div class="helper-tags">${(h.categories || []).slice(0,3).map(c => {
+          const cat = CATEGORIES.find(x => x.id === c);
+          return `<span class="htag">${cat ? cat.icon + ' ' + cat.label : c}</span>`;
+        }).join('')}</div>
+      </div>
+    </div>`).join('');
+}
+
+function openOrderModal(hid) {
+  const h = DEMO_HELPERS.find(x => x.id === hid) || {id:hid, nama:'Helper', foto:'', rating:4.5, gender:'L', domisili:'-', bio:'-', categories:['lainnya']};
+  currentOrderHelper = h;
+  document.getElementById('orderHelperAvatar').src = h.foto || `https://ui-avatars.com/api/?name=${encodeURIComponent(h.nama)}&background=FF6B35&color=fff`;
+  document.getElementById('orderHelperName').textContent = h.nama;
+  document.getElementById('orderHelperSub').textContent = `⭐ ${h.rating} • 📍 ${h.domisili}`;
+  
+  const sel = document.getElementById('orderCategory');
+  sel.innerHTML = CATEGORIES.map(c => `<option value="${c.id}">${c.icon} ${c.label}</option>`).join('');
+  if (h.categories?.length) {
+    sel.value = h.categories[0];
+  }
+  
+  document.getElementById('orderDesc').value = '';
+  document.getElementById('orderNote').value = '';
+  document.getElementById('orderPrice').value = '';
+  openModal('orderModal');
+}
+window.openOrderModal = openOrderModal;
+
+function submitOrder() {
+  const h = currentOrderHelper;
+  if (!h) return;
+  const cat = document.getElementById('orderCategory').value;
+  const desc = document.getElementById('orderDesc').value.trim();
+  const note = document.getElementById('orderNote').value.trim();
+  const price = document.getElementById('orderPrice').value;
+  
+  if (!desc) { showToast('❌ Deskripsi tidak boleh kosong', 'error'); return; }
+  if (!price) { showToast('❌ Masukkan nominal bayaran', 'error'); return; }
+  
+  showLoading('Mengirim permintaan...');
+  
+  const catInfo = CATEGORIES.find(c => c.id === cat);
+  const order = {
+    id: 'ord_' + Date.now(),
+    helperId: h.id,
+    helperName: h.nama,
+    helperFoto: h.foto,
+    category: cat,
+    categoryLabel: catInfo?.label || cat,
+    desc, note, price,
+    status: 'process',
+    createdAt: Date.now()
+  };
+  
+  const orders = loadLocal('orders', []);
+  orders.unshift(order);
+  saveLocal('orders', orders);
+  document.getElementById('statOrder').textContent = orders.length;
+  
+  // Save to Firebase
+  const uid = window._currentUser?.uid;
+  if (uid) {
+    try {
+      window._fbSet(window._fbRef(window._fbDb, `orders/${uid}/${order.id}`), order);
+    } catch(e) {}
+  }
+  
+  // Start chat
+  const chats = loadLocal('chats', {});
+  if (!chats[h.id]) {
+    chats[h.id] = {
+      helperId: h.id,
+      helperName: h.nama,
+      helperFoto: h.foto,
+      messages: [],
+      lastMsg: '',
+      lastTime: Date.now(),
+      unread: 0
+    };
+  }
+  const autoMsg = `Halo! Saya butuh bantuan untuk: ${catInfo?.icon || ''} ${catInfo?.label || cat}. ${desc}. Bayaran: Rp ${Number(price).toLocaleString('id')}.`;
+  chats[h.id].messages.push({text: autoMsg, from: 'me', time: Date.now()});
+  chats[h.id].lastMsg = autoMsg;
+  chats[h.id].lastTime = Date.now();
+  saveLocal('chats', chats);
+  
+  setTimeout(() => {
+    hideLoading();
+    closeModal('orderModal');
+    showToast('🎉 Permintaan terkirim!', 'success');
+    
+    // Auto reply from helper
+    setTimeout(() => {
+      const reply = `Halo! Saya ${h.nama}. Pesanan Anda sudah saya terima. Saya segera konfirmasi ketersediaan. Mohon tunggu ya 🙏`;
+      const c = loadLocal('chats', {});
+      if (c[h.id]) {
+        c[h.id].messages.push({text: reply, from: 'them', time: Date.now()});
+        c[h.id].lastMsg = reply;
+        c[h.id].lastTime = Date.now();
+        c[h.id].unread = (c[h.id].unread || 0) + 1;
+        saveLocal('chats', c);
+        document.getElementById('chatBadge').style.display = 'flex';
+        document.getElementById('chatBadge').textContent = '1';
+      }
+    }, 2000);
+  }, 1200);
+}
+window.submitOrder = submitOrder;
+
+// ===== CHAT =====
+function buildChatList() {
+  const chats = loadLocal('chats', {});
+  const container = document.getElementById('chatListContainer');
+  const chatArr = Object.values(chats).sort((a,b) => b.lastTime - a.lastTime);
+  
+  if (!chatArr.length) {
+    container.innerHTML = `<div class="chat-empty">
+      <div class="chat-empty-icon">💬</div>
+      <div class="chat-empty-title">Belum ada pesan</div>
+      <div class="chat-empty-sub">Pesan helper untuk mulai chat</div>
+    </div>`;
+    return;
+  }
+  
+  container.innerHTML = chatArr.map(c => {
+    const timeStr = formatTime(c.lastTime);
+    return `<div class="chat-item" onclick="openChat('${c.helperId}')">
+      <div style="position:relative;">
+        <img class="chat-av" src="${c.helperFoto || `https://ui-avatars.com/api/?name=${encodeURIComponent(c.helperName)}&background=FF6B35&color=fff`}" alt="" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(c.helperName)}&background=FF6B35&color=fff'">
+        <div class="chat-av-online"></div>
+      </div>
+      <div class="chat-info">
+        <div class="chat-name">${c.helperName}</div>
+        <div class="chat-msg">${c.lastMsg || 'Mulai percakapan...'}</div>
+      </div>
+      <div class="chat-meta">
+        <div class="chat-time">${timeStr}</div>
+        ${c.unread ? `<div class="chat-unread">${c.unread}</div>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+window.buildChatList = buildChatList;
+
+function openChat(hid) {
+  const chats = loadLocal('chats', {});
+  const c = chats[hid];
+  if (!c) return;
+  
+  currentChatHelper = hid;
+  c.unread = 0;
+  saveLocal('chats', chats);
+  
+  document.getElementById('convAvatar').src = c.helperFoto || `https://ui-avatars.com/api/?name=${encodeURIComponent(c.helperName)}&background=FF6B35&color=fff`;
+  document.getElementById('convName').textContent = c.helperName;
+  
+  document.getElementById('chatListView').style.display = 'none';
+  const convView = document.getElementById('chatConvView');
+  convView.style.display = 'flex';
+  
+  renderMessages(c.messages || []);
+}
+window.openChat = openChat;
+
+function renderMessages(msgs) {
+  const container = document.getElementById('chatMessages');
+  if (!msgs.length) {
+    container.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text-muted);font-size:13px;">Kirim pesan untuk memulai percakapan</div>';
+    return;
+  }
+  container.innerHTML = msgs.map(m => `
+    <div>
+      <div class="msg-bubble ${m.from === 'me' ? 'msg-out' : 'msg-in'}">${m.text}</div>
+      <div class="msg-time" style="text-align:${m.from === 'me' ? 'right' : 'left'};padding:0 4px;">${formatTime(m.time)}</div>
+    </div>`).join('');
+  container.scrollTop = container.scrollHeight;
+}
+
+function sendChatMsg() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text || !currentChatHelper) return;
+  
+  const chats = loadLocal('chats', {});
+  if (!chats[currentChatHelper]) return;
+  
+  const msg = {text, from: 'me', time: Date.now()};
+  chats[currentChatHelper].messages.push(msg);
+  chats[currentChatHelper].lastMsg = text;
+  chats[currentChatHelper].lastTime = Date.now();
+  saveLocal('chats', chats);
+  
+  input.value = '';
+  input.style.height = '';
+  renderMessages(chats[currentChatHelper].messages);
+  
+  // Auto reply
+  const replies = [
+    'Baik, saya mengerti. Saya segera ke lokasi Anda 🚀',
+    'Siap! Mohon tunggu sebentar ya 😊',
+    'Okay, saya konfirmasi dulu. Bisa kirim lokasi Anda?',
+    'Terima kasih pesanannya! Saya akan segera tiba 🙏',
+    'Sip, nanti saya kabari kalau sudah dekat ya!'
+  ];
+  setTimeout(() => {
+    const c = loadLocal('chats', {});
+    if (c[currentChatHelper]) {
+      const reply = {text: replies[Math.floor(Math.random()*replies.length)], from: 'them', time: Date.now()};
+      c[currentChatHelper].messages.push(reply);
+      c[currentChatHelper].lastMsg = reply.text;
+      c[currentChatHelper].lastTime = Date.now();
+      saveLocal('chats', c);
+      if (currentChatHelper === currentChatHelper) {
+        renderMessages(c[currentChatHelper].messages);
+      }
+    }
+  }, 1500);
+}
+window.sendChatMsg = sendChatMsg;
+
+function closeChatConv() {
+  currentChatHelper = null;
+  document.getElementById('chatConvView').style.display = 'none';
+  document.getElementById('chatListView').style.display = 'block';
+  buildChatList();
+}
+window.closeChatConv = closeChatConv;
+
+function autoResize(el) {
+  el.style.height = '';
+  el.style.height = el.scrollHeight + 'px';
+}
+window.autoResize = autoResize;
+
+// enter to send
+document.getElementById('chatInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendChatMsg();
+  }
+});
+
+// ===== PROFIL =====
+function openEditProfil() {
+  const ud = window._userData;
+  if (!ud) return;
+  document.getElementById('editAvatarImg').src = ud.fotoUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(ud.nama||'User')}&background=FF6B35&color=fff`;
+  document.getElementById('editNama').value = ud.nama || '';
+  document.getElementById('editAlamat').value = ud.alamat || '';
+  document.getElementById('editDomisili').value = ud.domisili || '';
+  document.getElementById('editGender').value = ud.gender || 'L';
+  openModal('editProfilModal');
+}
+window.openEditProfil = openEditProfil;
+
+let editAvatarBase64 = null;
+async function handleEditAvatar(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const img = new Image();
+  img.onload = () => {
+    const canvas = document.createElement('canvas');
+    const max = 400;
+    const r = Math.min(max/img.width, max/img.height);
+    canvas.width = img.width*r; canvas.height = img.height*r;
+    canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+    canvas.toBlob(blob => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        editAvatarBase64 = reader.result;
+        document.getElementById('editAvatarImg').src = editAvatarBase64;
+      };
+      reader.readAsDataURL(blob);
+    }, 'image/webp', 0.85);
+  };
+  img.src = URL.createObjectURL(file);
+}
+window.handleEditAvatar = handleEditAvatar;
+
+async function saveEditProfil() {
+  const nama = document.getElementById('editNama').value.trim();
+  const alamat = document.getElementById('editAlamat').value.trim();
+  const domisili = document.getElementById('editDomisili').value.trim();
+  const gender = document.getElementById('editGender').value;
+  if (!nama) { showToast('❌ Nama tidak boleh kosong', 'error'); return; }
+  
+  showLoading('Menyimpan profil...');
+  const ud = window._userData;
+  let fotoUrl = ud.fotoUrl;
+  
+  if (editAvatarBase64) {
+    try {
+      const blob = await (await fetch(editAvatarBase64)).blob();
+      const uid = window._currentUser?.uid;
+      const imgRef = window._fbSRef(window._fbStorage, `profiles/${uid}.webp`);
+      await window._fbUploadBytes(imgRef, blob);
+      fotoUrl = await window._fbGetDownloadURL(imgRef);
+    } catch(e) {
+      fotoUrl = editAvatarBase64;
+    }
+  }
+  
+  const updated = {...ud, nama, alamat, domisili, gender, fotoUrl};
+  window._userData = updated;
+  saveLocal('userData', updated);
+  
+  try {
+    const uid = window._currentUser?.uid;
+    await window._fbSet(window._fbRef(window._fbDb, `users/${uid}`), updated);
+  } catch(e) {}
+  
+  document.getElementById('profName').textContent = nama;
+  document.getElementById('profAvatar').src = fotoUrl;
+  document.getElementById('headerName').textContent = nama.split(' ')[0];
+  document.getElementById('headerAvatar').src = fotoUrl;
+  document.getElementById('statDom').textContent = domisili.split(' ')[0];
+  
+  editAvatarBase64 = null;
+  hideLoading();
+  closeModal('editProfilModal');
+  showToast('✅ Profil berhasil diperbarui', 'success');
+}
+window.saveEditProfil = saveEditProfil;
+
+function openRiwayat() {
+  const orders = loadLocal('orders', []);
+  document.getElementById('profilMain').style.display = 'none';
+  document.getElementById('subRiwayat').style.display = 'block';
+  
+  const list = document.getElementById('riwayatList');
+  if (!orders.length) {
+    list.innerHTML = `<div class="chat-empty"><div class="chat-empty-icon">📋</div><div class="chat-empty-title">Belum ada transaksi</div><div class="chat-empty-sub">Order helper untuk memulai</div></div>`;
+    return;
+  }
+  
+  list.innerHTML = orders.map(o => `
+    <div class="history-item" onclick="openRatingModal('${o.id}')">
+      <div class="hist-top">
+        <img class="hist-av" src="${o.helperFoto || `https://ui-avatars.com/api/?name=${encodeURIComponent(o.helperName||'H')}&background=FF6B35&color=fff`}" alt="" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(o.helperName||'H')}&background=FF6B35&color=fff'">
+        <div class="hist-info">
+          <div class="hist-name">${o.helperName || 'Helper'}</div>
+          <div class="hist-date">${new Date(o.createdAt).toLocaleDateString('id-ID', {day:'numeric',month:'long',year:'numeric'})}</div>
+        </div>
+        <span class="hist-badge ${o.status === 'done' ? 'badge-done' : 'badge-proc'}">${o.status === 'done' ? '✅ Selesai' : '⏳ Proses'}</span>
+      </div>
+      <div class="hist-desc">📦 ${o.categoryLabel || o.category} • ${o.desc?.substring(0,60)}${o.desc?.length > 60 ? '...' : ''}</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div class="hist-price">Rp ${Number(o.price).toLocaleString('id')}</div>
+        ${o.status !== 'done' ? `<button class="hist-rate-btn" onclick="event.stopPropagation();openRatingModal('${o.id}')">⭐ Beri Ulasan</button>` : ''}
+      </div>
+    </div>`).join('');
+}
+window.openRiwayat = openRiwayat;
+
+function openRatingModal(orderId) {
+  const orders = loadLocal('orders', []);
+  const ord = orders.find(o => o.id === orderId);
+  if (!ord) return;
+  currentRatingOrder = ord;
+  currentRating = 0;
+  document.getElementById('ratingHelperName').textContent = ord.helperName;
+  document.getElementById('ratingComment').value = '';
+  document.querySelectorAll('.star-rate').forEach(s => s.style.filter = 'grayscale(1)');
+  openModal('ratingModal');
+}
+window.openRatingModal = openRatingModal;
+
+function setRating(val) {
+  currentRating = val;
+  document.querySelectorAll('.star-rate').forEach(s => {
+    const v = parseInt(s.dataset.v);
+    s.style.filter = v <= val ? '' : 'grayscale(1)';
+    s.style.transform = v === val ? 'scale(1.3)' : '';
+  });
+}
+window.setRating = setRating;
+
+function submitRating() {
+  if (!currentRating) { showToast('❌ Pilih bintang terlebih dahulu', 'error'); return; }
+  const comment = document.getElementById('ratingComment').value.trim();
+  
+  const orders = loadLocal('orders', []);
+  const idx = orders.findIndex(o => o.id === currentRatingOrder?.id);
+  if (idx >= 0) {
+    orders[idx].status = 'done';
+    orders[idx].rating = currentRating;
+    orders[idx].comment = comment;
+    saveLocal('orders', orders);
+  }
+  
+  closeModal('ratingModal');
+  showToast('⭐ Ulasan berhasil dikirim!', 'success');
+  if (document.getElementById('subRiwayat').style.display !== 'none') {
+    openRiwayat();
+  }
+}
+window.submitRating = submitRating;
+
+function openPerhatian() {
+  document.getElementById('profilMain').style.display = 'none';
+  document.getElementById('subPerhatian').style.display = 'block';
+}
+window.openPerhatian = openPerhatian;
+
+function openDukung() {
+  document.getElementById('profilMain').style.display = 'none';
+  document.getElementById('subDukung').style.display = 'block';
+}
+window.openDukung = openDukung;
+
+function openLaporkan() {
+  document.getElementById('profilMain').style.display = 'none';
+  document.getElementById('subLaporkan').style.display = 'block';
+}
+window.openLaporkan = openLaporkan;
+
+function closeSubPage(id) {
+  document.getElementById(id).style.display = 'none';
+  document.getElementById('profilMain').style.display = 'block';
+}
+window.closeSubPage = closeSubPage;
+
+function kirimLaporan() {
+  const type = document.getElementById('reportType').value;
+  const target = document.getElementById('reportTarget').value.trim();
+  const detail = document.getElementById('reportDetail').value.trim();
+  if (!detail) { showToast('❌ Isi detail laporan', 'error'); return; }
+  
+  showLoading('Mengirim laporan...');
+  const report = { type, target, detail, createdAt: Date.now(), reporterUid: window._currentUser?.uid };
+  
+  try {
+    const rRef = window._fbPush(window._fbRef(window._fbDb, 'reports'));
+    window._fbSet(rRef, report);
+  } catch(e) {}
+  
+  const reports = loadLocal('reports', []);
+  reports.push(report);
+  saveLocal('reports', reports);
+  
+  setTimeout(() => {
+    hideLoading();
+    document.getElementById('reportDetail').value = '';
+    document.getElementById('reportTarget').value = '';
+    showToast('✅ Laporan berhasil dikirim', 'success');
+  }, 1000);
+}
+window.kirimLaporan = kirimLaporan;
+
+async function doLogout() {
+  if (!confirm('Yakin ingin keluar dari BBQ?')) return;
+  showLoading('Keluar...');
+  try {
+    await window._signOut(window._fbAuth);
+  } catch(e) {}
+  window._userData = null;
+  window._currentUser = null;
+  hideLoading();
+  showToast('👋 Sampai jumpa!');
+  setTimeout(() => showScreen('login'), 800);
+}
+window.doLogout = doLogout;
+
+// ===== UTILS =====
+function formatTime(ts) {
+  if (!ts) return '';
+  const d = new Date(ts);
+  const now = new Date();
+  if (d.toDateString() === now.toDateString()) {
+    return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+  }
+  return `${d.getDate()}/${d.getMonth()+1}`;
+}
+
+// Close modals on backdrop click
+document.querySelectorAll('.modal-overlay').forEach(m => {
+  m.addEventListener('click', e => {
+    if (e.target === m) closeModal(m.id);
+  });
+});
+
+// Init splash
+setTimeout(() => {
+  const splash = document.getElementById('splash');
+  if (!window._fbAuth || !window._currentUser) {
+    // Check localstorage
+    const ud = loadLocal('userData', null);
+    if (ud) {
+      window._userData = ud;
+      splash.classList.add('hidden');
+      showApp();
+    } else {
+      splash.classList.add('hidden');
+      document.getElementById('login').classList.remove('hidden');
+    }
+  }
+}, 3000);
+</script>
+</body>
+</html>
